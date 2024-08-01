@@ -1,9 +1,11 @@
-public class LibraryItem<T> {
+package main;
+
+public class LibraryItem {
     private String title;
     private String author;
-    private T itemID;
+    private String itemID;
 
-    public LibraryItem(String title, String author, T itemID) {
+    public LibraryItem(String title, String author, String itemID) {
         this.title = title;
         this.author = author;
         this.itemID = itemID;
@@ -17,12 +19,7 @@ public class LibraryItem<T> {
         return author;
     }
 
-    public T getItemID() {
+    public String getItemID() {
         return itemID;
-    }
-
-    @Override
-    public String toString() {
-        return "Title: " + title + ", Author: " + author + ", Item ID: " + itemID;
     }
 }

@@ -1,22 +1,22 @@
+package main;
+
 import java.util.Scanner;
 
 public class LibraryCatalogApp {
     public static void main(String[] args) {
-        GenericCatalog<String> catalog = new GenericCatalog<>();
+        GenericCatalog<LibraryItem> catalog = new GenericCatalog<>();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\nLibrary Catalog System:");
-            System.out.println("1. Add Item");
-            System.out.println("2. Remove Item");
-            System.out.println("3. View Item");
-            System.out.println("4. Display Catalog");
-            System.out.println("5. Exit");
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume newline
+            System.out.println("1. Add item");
+            System.out.println("2. Remove item");
+            System.out.println("3. View items");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+            int option = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
 
-            switch (choice) {
+            switch (option) {
                 case 1:
                     System.out.print("Enter title: ");
                     String title = scanner.nextLine();
@@ -24,33 +24,35 @@ public class LibraryCatalogApp {
                     String author = scanner.nextLine();
                     System.out.print("Enter item ID: ");
                     String itemID = scanner.nextLine();
-                    LibraryItem<String> newItem = new LibraryItem<>(title, author, itemID);
-                    catalog.addItem(newItem);
+                    LibraryItem item = new LibraryItem(title, author, itemID);
+                    catalog.addItem(item);
                     break;
                 case 2:
                     System.out.print("Enter item ID to remove: ");
                     String removeID = scanner.nextLine();
-                    catalog.removeItem(removeID);
+                    LibraryItem removeItem = null;
+                    for (LibraryItem i : catalog.getAllItems()) {
+                        if (i.getItemID().equals(removeID)) {
+                            removeItem = i;
+                            break;
+                        }
+                    }
+                    if (removeItem != null) {
+                        catalog.removeItem(removeItem);
+                    } else {
+                        System.out.println("Item not found.");
+                    }
                     break;
                 case 3:
-                    System.out.print("Enter item ID to view: ");
-                    String viewID = scanner.nextLine();
-                    LibraryItem<String> item = catalog.getItem(viewID);
-                    if (item != null) {
-                        System.out.println(item);
-                    } else {
-                        System.out.println("Item not found with ID: " + viewID);
+                    for (LibraryItem i : catalog.getAllItems()) {
+                        System.out.println("Title: " + i.getTitle() + ", Author: " + i.getAuthor() + ", ID: " + i.getItemID());
                     }
                     break;
                 case 4:
-                    catalog.displayCatalog();
-                    break;
-                case 5:
-                    System.out.println("Exiting...");
                     scanner.close();
-                    System.exit(0);
+                    return;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid option. Try again.");
             }
         }
     }
